@@ -2,162 +2,134 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#030719">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05091b">
 <title>Kiếm Lúa Online</title>
 <style>
-:root{--bg:#f0f2f7;--navy:#030719;--blue:#427cf5;--text:#d0d7e6;--muted:#8998b2;--line:#202a42}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:#182238}
+body{margin:0;background:#05091b;color:#e8eefc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{height:70px;background:#05091b;border-bottom:1px solid #202942;display:flex;align-items:center;justify-content:space-between;padding:12px;position:sticky;top:0;z-index:5}
 button{font:inherit;cursor:pointer}
-.top{height:64px;background:#fff;display:flex;align-items:center;padding:0 17px;gap:14px;box-shadow:0 2px 12px #17213b0c}
-.menu-btn{border:0;background:none;font-size:27px;color:#182238;padding:5px}
-.brand-small{font-size:18px;font-weight:800}
-.avatar{margin-left:auto;width:37px;height:37px;border-radius:50%;background:#dce8ff;display:grid;place-items:center}
-main{padding:20px 15px 35px;max-width:850px;margin:auto}
-h1{font-size:23px;margin:3px 0 7px}
-h2{font-size:17px;margin:0 0 14px}
-.muted{color:#738199;font-size:13px}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
-.card{background:white;border-radius:14px;padding:17px;box-shadow:0 3px 15px #1a2b4b09;margin-bottom:13px}
-.label{color:#77849a;font-size:12px}
-.number{font-size:23px;font-weight:800;margin:10px 0;color:#1d2d49}
-.blue{color:var(--blue)}.green{color:#13a876}
-.iconbox{font-size:21px;margin-bottom:12px}
-.btn{background:var(--blue);color:white;border:0;border-radius:9px;padding:13px 16px;font-weight:700}
-.full{width:100%;margin-top:12px}
-.notice{padding:12px;background:#fff7df;color:#775a15;border-radius:10px;font-size:12px;line-height:1.6}
-.chart{display:block;width:100%;height:190px;background:#fcfdfe;border:1px dashed #ced6e0;border-radius:10px;margin-top:10px}
-.task{display:flex;gap:12px;align-items:flex-start}
-.task-icon{flex-shrink:0;width:45px;height:45px;border-radius:12px;background:#e7efff;display:grid;place-items:center;font-size:22px}
-.task-info{flex:1;min-width:0}
-.task-title{font-weight:750;margin:2px 0 8px}
-.reward{font-weight:800;color:#13a876;white-space:nowrap}
-.meta{font-size:12px;color:#78859a;line-height:1.9;margin-top:10px}
+.menuBtn{background:#111a30;border:1px solid #24304b;color:white;border-radius:12px;padding:10px 13px;font-size:20px}
+.brand{color:white;font-size:13px;font-weight:850}
+.balance{color:#91bdff;background:#0a1530;border:1px solid #203c75;padding:10px;border-radius:12px;font-weight:750;font-size:12px}
+main{max-width:760px;margin:auto;padding:15px}
 .page{display:none}.page.active{display:block}
-.overlay{position:fixed;inset:0;background:#0008;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:20;opacity:0;visibility:hidden;transition:opacity .2s}
-.drawer{position:fixed;z-index:21;inset:0 auto 0 0;width:min(78%,320px);background:var(--navy);color:var(--text);transform:translateX(-105%);transition:transform .24s ease;display:flex;flex-direction:column;box-shadow:10px 0 40px #0002}
-body.menu-open .overlay{opacity:1;visibility:visible}
-body.menu-open .drawer{transform:translateX(0)}
-.drawer-head{height:90px;min-height:90px;padding:0 18px 0 30px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
-.logo{width:48px;height:48px;flex-shrink:0;border-radius:14px;background:linear-gradient(145deg,#65a3ff,#3260f1);display:grid;place-items:center;color:white;font-size:25px;box-shadow:0 4px 12px #3069ff45}
-.logo-name{font-size:17px;font-weight:850;white-space:nowrap;color:#fff;flex:1}
-.close{border:0;background:none;color:#98a5bd;font-size:28px;padding:5px}
-.nav-area{padding:23px 23px 14px;overflow-y:auto;flex:1}
-.nav{width:100%;min-height:65px;display:flex;align-items:center;gap:23px;padding:12px 22px;border:0;border-radius:23px;background:transparent;color:#cbd3e2;text-align:left;font-size:19px;font-weight:650;margin-bottom:9px}
-.nav-icon{font-size:26px;width:20px;text-align:center;flex-shrink:0}
-.nav.active{background:var(--blue);color:#fff;box-shadow:0 7px 17px #2762ed3a}
-.chevron{margin-left:auto;font-size:22px}
-.subnav{display:none;padding:0 0 6px 25px}
-.subnav.open{display:block}
-.nav.sub{font-size:16px;min-height:48px;border-radius:13px;padding:9px 18px;margin-bottom:5px}
-.drawer-bottom{border-top:1px solid var(--line);padding:24px 23px 29px}
-.nav.logout{margin:0;min-height:65px;padding-left:22px}
-@media(min-width:700px){.drawer{width:290px}.nav-area{padding-top:23px}.nav{font-size:17px;min-height:58px}main{padding:28px}}
+.card{background:#fff;color:#172033;border:1px solid #e2e8f0;border-radius:20px;padding:18px;margin-bottom:15px}
+.darkCard{background:linear-gradient(135deg,#101b35,#1a2944);color:white;border-color:#34445e}
+.muted{color:#718096;font-size:13px}
+.big{font-size:27px;font-weight:850;margin:12px 0}
+.btn{background:#315cf5;color:white;border:0;border-radius:13px;padding:14px;width:100%;font-weight:750;font-size:16px;text-align:center;display:block;text-decoration:none}
+.progress{height:9px;background:#edf1f7;border-radius:10px;overflow:hidden;margin:15px 0}
+.progress span{display:block;width:0;height:100%;background:#315cf5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.stat{background:#fff;color:#172033;border-radius:16px;padding:15px}
+.stat strong{display:block;font-size:24px;margin:9px 0}
+.heading{color:#fff;font-size:20px;font-weight:800;margin:23px 2px 13px}
+.notice{background:#102d25;color:#86e3b0;padding:12px;border-radius:11px;margin-bottom:15px;font-size:13px}
+.taskIcon{width:54px;height:54px;flex-shrink:0;display:grid;place-items:center;background:#eee9ff;color:#7838ff;border-radius:17px;font-size:25px}
+.taskTop{display:flex;align-items:center;gap:12px}
+.taskName{font-size:18px;font-weight:850}
+.taskMeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.pill{background:#f1f4f9;color:#697b96;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:700}
+.reward{background:#effbf5;color:#329c6b}
+.count{margin-left:auto;background:#fcf0f7;color:#e0449c;border-radius:20px;padding:8px 10px;font-weight:800;font-size:12px}
+.taskFoot{color:#697b96;margin:23px 0 14px;font-size:13px}
+.bar{height:9px;background:#f0f3f8;border-radius:9px;margin-top:23px}
+.drawer{display:none;position:fixed;inset:0;background:#0009;z-index:20}
+.drawer.open{display:block}
+.sidebar{background:#05091b;color:#cbd5e1;width:min(82%,330px);height:100%;padding:16px;display:flex;flex-direction:column;overflow:auto}
+.sideHead{color:white;display:flex;justify-content:space-between;align-items:center;padding:12px 0 20px;border-bottom:1px solid #202942;font-weight:850}
+.sideLink{display:block;padding:16px 12px;color:#cbd5e1;text-decoration:none;border-radius:14px;margin-top:5px;font-weight:700}
+.sideLink.active{background:#3979f6;color:white}
+.subLink{display:block;margin:0 0 5px 38px;padding:12px;color:#aab8d0;text-decoration:none}
+.logout{margin-top:auto;border-top:1px solid #202942}
+.chartWrap{height:200px;display:flex;align-items:stretch;gap:8px;margin-top:20px;padding-top:10px}
+footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </style>
 </head>
 <body>
 
-<header class="top">
-<button class="menu-btn" id="openMenu" aria-label="Mở menu">☰</button>
-<div class="brand-small">🌾 KIẾM LÚA ONLINE</div>
-<div class="avatar">👤</div>
+<header>
+<button class="menuBtn" onclick="menu()">☰</button>
+<div class="brand">🌾 KIẾM LÚA ONLINE</div>
+<div class="balance">🌾 0 Lúa</div>
 </header>
 
-<div class="overlay" id="overlay"></div>
-
-<aside class="drawer" aria-label="Menu điều hướng">
-<div class="drawer-head">
-<div class="logo">▤</div>
-<div class="logo-name">KIẾM LÚA ONLINE</div>
-<button class="close" id="closeMenu" aria-label="Đóng menu">×</button>
+<div class="drawer" id="drawer" onclick="if(event.target===this)menu()">
+<nav class="sidebar">
+<div class="sideHead">🌾 KIẾM LÚA ONLINE <button onclick="menu()" style="background:none;border:0;color:white;font-size:25px">×</button></div>
+<a class="sideLink active" href="#" data-page="overview">⌂ Tổng quan</a>
+<a class="sideLink" href="#" onclick="toggleSub(event)">◎ Nhiệm vụ ⌄</a>
+<div id="sub"><a class="subLink" href="#" data-page="links">— Link</a></div>
+<a class="sideLink" href="#" data-page="ref">♧ Tuyển Ref</a>
+<a class="sideLink" href="#" data-page="benefits">♙ Phúc lợi</a>
+<a class="sideLink" href="#" data-page="withdraw">▣ Rút tiền</a>
+<a class="sideLink" href="#" data-page="history">◷ Lịch sử</a>
+<a class="sideLink" href="#" data-page="profile">◎ Hồ sơ</a>
+<div class="logout"><a class="sideLink" href="#" onclick="alert('Đăng nhập sẽ được thiết lập sau.')">⇥ Đăng xuất</a></div>
+</nav>
 </div>
-<div class="nav-area">
-<button class="nav active" data-page="overview"><span class="nav-icon">⌂</span><span>Tổng quan</span></button>
-<button class="nav" id="taskToggle"><span class="nav-icon">◎</span><span>Nhiệm vụ</span><span class="chevron" id="arrow">⌄</span></button>
-<div class="subnav" id="taskSub">
-<button class="nav sub" data-page="tasks"><span class="nav-icon">↗</span>Link</button>
-</div>
-<button class="nav" data-page="ref"><span class="nav-icon">♧</span><span>Tuyển Ref</span></button>
-<button class="nav" data-page="benefits"><span class="nav-icon">♔</span><span>Phúc lợi</span></button>
-<button class="nav" data-page="withdraw"><span class="nav-icon">▱</span><span>Rút tiền</span></button>
-<button class="nav" data-page="history"><span class="nav-icon">◴</span><span>Lịch sử</span></button>
-<button class="nav" data-page="profile"><span class="nav-icon">◎</span><span>Hồ sơ</span></button>
-</div>
-<div class="drawer-bottom">
-<button class="nav logout" id="logout"><span class="nav-icon">⇥</span><span>Đăng xuất</span></button>
-</div>
-</aside>
 
 <main>
-<div class="notice">⚠️ Bản demo: số dư và phần thưởng là dữ liệu minh họa. Chưa có đăng nhập thật, xác minh nhiệm vụ hoặc thanh toán.</div>
-
-<!-- TRANG TỔNG QUAN -->
-<section class="page active" id="overview">
-<div style="margin-top:22px"><h1>Tổng quan</h1><div class="muted">Chào mừng bạn đến với Kiếm Lúa Online!</div></div>
-<div class="cards">
-<div class="card"><div class="iconbox">💰</div><div class="label">Số dư khả dụng</div><div class="number blue">0 Lúa</div><div class="muted">Số dư demo</div></div>
-<div class="card"><div class="iconbox">📈</div><div class="label">Thu nhập 7 ngày</div><div class="number green">0 Lúa</div><div class="muted">Chưa có giao dịch</div></div>
-<div class="card"><div class="iconbox">🎯</div><div class="label">Nhiệm vụ hoàn thành</div><div class="number">0</div><div class="muted">Tổng nhiệm vụ demo</div></div>
-<div class="card"><div class="iconbox">🏦</div><div class="label">Rút tối thiểu</div><div class="number">50.000</div><div class="muted">Lúa · minh họa</div></div>
+<section id="overview" class="page active">
+<div class="notice">● Chào mừng bạn đến Kiếm Lúa Online</div>
+<div class="card darkCard">
+<div style="color:#b8c9e8">▣ Số dư khả dụng</div>
+<div class="big">0 Lúa</div>
+<p style="color:#b8c9e8;font-size:13px">Sẵn sàng cho nhiệm vụ tiếp theo</p>
+<button class="btn" onclick="show('withdraw')">Rút tiền ↗</button>
 </div>
 <div class="card">
-<h2>📊 Thu nhập 7 ngày gần đây</h2>
-<div class="chart" style="display:flex;align-items:center;justify-content:center;color:#8998b2;font-size:13px;">[Biểu đồ thống kê thu nhập]</div>
-<div class="muted">Biểu đồ minh họa · chưa có dữ liệu thật</div>
+<div class="muted">◎ Mốc rút thưởng tối thiểu</div>
+<div class="big">5.000 Lúa</div>
+<div class="progress"><span></span></div>
+<div class="muted">0 / 5.000 Lúa (0%)</div>
 </div>
+<div class="grid">
+<div class="stat"><span class="muted">Tổng nhiệm vụ</span><strong>0</strong><span class="muted">Lượt thực hiện</span></div>
+<div class="stat"><span class="muted">Đã hoàn thành</span><strong style="color:#159765">0</strong><span class="muted">Nhiệm vụ</span></div>
+<div class="stat"><span class="muted">Đang thực hiện</span><strong style="color:#315cf5">0</strong><span class="muted">Nhiệm vụ</span></div>
+<div class="stat"><span class="muted">Thu nhập</span><strong>0</strong><span class="muted">Lúa thử nghiệm</span></div>
+</div>
+<div class="heading">Nhiệm vụ gần đây</div>
 <div class="card">
-<h2>Nhiệm vụ nổi bật</h2>
-<div class="task"><div class="task-icon">🔗</div><div class="task-info"><div class="task-title">Link Traffic Việt</div><div class="muted">Thời gian dự kiến ~90 giây</div></div><div class="reward">+350 Lúa</div></div>
-<button class="btn full" data-goto="tasks">Xem nhiệm vụ →</button>
+<div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Nhiệm vụ Link</div><div class="muted" style="margin-top:5px">Chưa có nhiệm vụ được xác minh</div></div></div>
+<br><button class="btn" onclick="show('links')">Xem nhiệm vụ</button>
 </div>
 </section>
 
-<!-- TRANG NHIỆM VỤ LINK -->
-<section class="page" id="tasks">
-<div style="margin:22px 0"><h1>Nhiệm vụ Link</h1><div class="muted">Danh sách nhiệm vụ khả dụng</div></div>
+<section id="links" class="page">
+<div class="heading">Nhiệm vụ Link</div>
+<div class="notice">Phần thưởng bên dưới chỉ là dữ liệu minh họa, chưa phải điểm thật.</div>
 <div class="card">
-<div class="task"><div class="task-icon">🔗</div><div class="task-info"><div class="task-title">Link Traffic Việt</div><div class="muted">Truy cập liên kết theo hướng dẫn</div></div><div class="reward">+350 Lúa</div></div>
-<div class="meta">◷ Thời gian: ~90 giây<br>◎ Hoàn thành: 0/2 lượt<br>▣ Còn 2/2 lượt hôm nay</div>
-<a href="https://bbmkts.com" target="_blank" style="text-decoration:none;"><button class="btn full">Làm nhiệm vụ</button></a>
+<div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Link Traffic Việt</div><div class="taskMeta"><span class="pill">◷ ~90s</span><span class="pill reward">+350 Lúa</span></div></div><span class="count">0/2</span></div>
+<div class="bar"></div><div class="taskFoot">Còn 2/2 lượt hôm nay</div>
+<a href="https://bbmkts.com" target="_blank" class="btn">Làm nhiệm vụ</a>
 </div>
 </section>
 
 <!-- CÁC TRANG CÒN LẠI -->
-<section class="page" id="ref"><h1 style="margin:22px 0">Tuyển Ref</h1><div class="card">Liên kết giới thiệu sẽ có sau khi hệ thống tài khoản được triển khai.</div></section>
-<section class="page" id="benefits"><h1 style="margin:22px 0">Phúc lợi</h1><div class="card">Chưa có chương trình phúc lợi.</div></section>
-<section class="page" id="withdraw"><h1 style="margin:22px 0">Rút tiền</h1><div class="card">Chức năng rút tiền yêu cầu quản trị viên duyệt thủ công (Đang phát triển).</div></section>
-<section class="page" id="history"><h1 style="margin:22px 0">Lịch sử</h1><div class="card">Chưa có lịch sử giao dịch.</div></section>
-<section class="page" id="profile"><h1 style="margin:22px 0">Hồ sơ</h1><div class="card">Thông tin cá nhân (Demo).</div></section>
+<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Liên kết giới thiệu sẽ có sau khi hệ thống tài khoản được triển khai.</div></section>
+<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có chương trình phúc lợi.</div></section>
+<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Chức năng rút tiền yêu cầu quản trị viên duyệt thủ công (Đang phát triển).</div></section>
+<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử giao dịch.</div></section>
+<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card">Thông tin cá nhân (Demo).</div></section>
 </main>
 
 <script>
-const body = document.body;
-document.getElementById('openMenu').onclick = () => body.classList.add('menu-open');
-document.getElementById('closeMenu').onclick = () => body.classList.remove('menu-open');
-document.getElementById('overlay').onclick = () => body.classList.remove('menu-open');
-
-const taskToggle = document.getElementById('taskToggle');
-const taskSub = document.getElementById('taskSub');
-const arrow = document.getElementById('arrow');
-taskToggle.onclick = () => {
-    taskSub.classList.toggle('open');
-    arrow.textContent = taskSub.classList.contains('open') ? '⌃' : '⌄';
-};
-
-const pages = document.querySelectorAll('.page');
-const navs = document.querySelectorAll('.nav[data-page]');
-function showPage(pageId) {
-    pages.forEach(p => p.classList.remove('active'));
-    navs.forEach(n => n.classList.remove('active'));
-    const targetPage = document.getElementById(pageId);
-    if(targetPage) targetPage.classList.add('active');
-    const targetNav = document.querySelector(`.nav[data-page="${pageId}"]`);
-    if(targetNav) targetNav.classList.add('active');
-    body.classList.remove('menu-open');
+function menu(){document.getElementById('drawer').classList.toggle('open')}
+function toggleSub(e){e.preventDefault();const s=document.getElementById('sub');s.style.display=s.style.display==='block'?'none':'block'}
+function show(pId){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.sideLink').forEach(l=>l.classList.remove('active'));
+const t=document.getElementById(pId);if(t)t.classList.add('active');
+const n=document.querySelector(`[data-page="${pId}"]`);if(n)n.classList.add('active');
+document.getElementById('drawer').classList.remove('open');
 }
-navs.forEach(nav => {
-    nav.onclick = () => showPage(nav.getAttribute('data-page'));
+document.querySelectorAll('[data-page]').forEach(link=>{
+link.onclick=(e)=>{e.preventDefault();show(link.getAttribute('data-page'))}
 });
-
-
+</script>
+</body>
+</html>
