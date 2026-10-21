@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="theme-color" content="#030719">
+
+<title>Kiếm Lúa Online</title>
+
+<style>
+
+:root{--bg:#f0f2f7;--navy:#030719;--blue:#427cf5;--text:#d0d7e6;--muted:#8998b2;--line:#202a42}
+
+*{box-sizing:border-box}
+
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:#182238}
+
+button{font:inherit;cursor:pointer}
+
+.top{height:64px;background:#fff;display:flex;align-items:center;padding:0 17px;gap:14px;box-shadow:0 2px 12px #17213b0c}
+
+.menu-btn{border:0;background:none;font-size:27px;color:#182238;padding:5px}
+
+.brand-small{font-size:18px;font-weight:800}
+
+.avatar{margin-left:auto;width:37px;height:37px;border-radius:50%;background:#dce8ff;display:grid;place-items:center}
+
+main{padding:20px 15px 35px;max-width:850px;margin:auto}
+
+h1{font-size:23px;margin:3px 0 7px}
+
+h2{font-size:17px;margin:0 0 14px}
+
+.muted{color:#738199;font-size:13px}
+
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+
+.card{background:white;border-radius:14px;padding:17px;box-shadow:0 3px 15px #1a2b4b09;margin-bottom:13px}
+
+.label{color:#77849a;font-size:12px}
+
+.number{font-size:23px;font-weight:800;margin:10px 0;color:#1d2d49}
+
+.blue{color:var(--blue)}.green{color:#13a876}
+
+.iconbox{font-size:21px;margin-bottom:12px}
+
+.btn{background:var(--blue);color:white;border:0;border-radius:9px;padding:13px 16px;font-weight:700}
+
+.full{width:100%;margin-top:12px}
+
+.notice{padding:12px;background:#fff7df;color:#775a15;border-radius:10px;font-size:12px;line-height:1.6}
+
+.chart{display:block;width:100%;height:190px}
+
+.task{display:flex;gap:12px;align-items:flex-start}
+
+.task-icon{flex-shrink:0;width:45px;height:45px;border-radius:12px;background:#e7efff;display:grid;place-items:center;font-size:22px}
+
+.task-info{flex:1;min-width:0}
+
+.task-title{font-weight:750;margin:2px 0 8px}
+
+.reward{font-weight:800;color:#13a876;white-space:nowrap}
+
+.meta{font-size:12px;color:#78859a;line-height:1.9;margin-top:10px}
+
+.page{display:none}.page.active{display:block}
+
+.overlay{position:fixed;inset:0;background:#0008;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:20;opacity:0;visibility:hidden;transition:opacity .2s}
+
+.drawer{position:fixed;z-index:21;inset:0 auto 0 0;width:min(78%,320px);background:var(--navy);color:var(--text);transform:translateX(-105%);transition:transform .24s ease;display:flex;flex-direction:column;box-shadow:10px 0 40px #0002}
+
+body.menu-open .overlay{opacity:1;visibility:visible}
+
+body.menu-open .drawer{transform:translateX(0)}
+
+.drawer-head{height:90px;min-height:90px;padding:0 18px 0 30px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+
+.logo{width:48px;height:48px;flex-shrink:0;border-radius:14px;background:linear-gradient(145deg,#65a3ff,#3260f1);display:grid;place-items:center;color:white;font-size:25px;box-shadow:0 4px 12px #3069ff45}
+
+.logo-name{font-size:17px;font-weight:850;white-space:nowrap;color:#fff;flex:1}
+
+.close{border:0;background:none;color:#98a5bd;font-size:28px;padding:5px}
+
+.nav-area{padding:23px 23px 14px;overflow-y:auto;flex:1}
+
+.nav{width:100%;min-height:65px;display:flex;align-items:center;gap:23px;padding:12px 22px;border:0;border-radius:23px;background:transparent;color:#cbd3e2;text-align:left;font-size:19px;font-weight:650;margin-bottom:9px}
+
+.nav-icon{font-size:26px;width:20px;text-align:center;flex-shrink:0}
+
+.nav.active{background:var(--blue);color:#fff;box-shadow:0 7px 17px #2762ed3a}
+
+.chevron{margin-left:auto;font-size:22px}
+
+.subnav{display:none;padding:0 0 6px 25px}
+
+.subnav.open{display:block}
+
+.nav.sub{font-size:16px;min-height:48px;border-radius:13px;padding:9px 18px;margin-bottom:5px}
+
+.drawer-bottom{border-top:1px solid var(--line);padding:24px 23px 29px}
+
+.nav.logout{margin:0;min-height:65px;padding-left:22px}
+
+.smallnote{font-size:11px;color:#74849e;margin:8px 8px 0;line-height:1.6}
+
+@media(min-width:700px){.drawer{width:290px}.nav-area{padding-top:23px}.nav{font-size:17px;min-height:58px}main{padding:28px}}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="top">
+
+<button class="menu-btn" id="openMenu" aria-label="Mở menu">☰</button>
+
+<div class="brand-small">🌾 KIẾM LÚA ONLINE</div>
+
+<div class="avatar">👤</div>
+
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="drawer" aria-label="Menu điều hướng">
+
+<div class="drawer-head">
+
+<div class="logo">▤</div>
+
+<div class="logo-name">KIẾM LÚA ONLINE</div>
+
+<button class="close" id="closeMenu" aria-label="Đóng menu">×</button>
+
+</div>
+
+<div class="nav-area">
+
+<button class="nav active" data-page="overview"><span class="nav-icon">⌂</span><span>Tổng quan</span></button>
+
+<button class="nav" id="taskToggle"><span class="nav-icon">◎</span><span>Nhiệm vụ</span><span class="chevron" id="arrow">⌄</span></button>
+
+<div class="subnav" id="taskSub">
+
+<button class="nav sub" data-page="tasks"><span class="nav-icon">↗</span>Link</button>
+
+</div>
+
+<button class="nav" data-page="ref"><span class="nav-icon">♧</span><span>Tuyển Ref</span></button>
+
+<button class="nav" data-page="benefits"><span class="nav-icon">♔</span><span>Phúc lợi</span></button>
+
+<button class="nav" data-page="withdraw"><span class="nav-icon">▱</span><span>Rút tiền</span></button>
+
+<button class="nav" data-page="history"><span class="nav-icon">◴</span><span>Lịch sử</span></button>
+
+<button class="nav" data-page="profile"><span class="nav-icon">◎</span><span>Hồ sơ</span></button>
+
+</div>
+
+<div class="drawer-bottom">
+
+<button class="nav logout" id="logout"><span class="nav-icon">⇥</span><span>Đăng xuất</span></button>
+
+</div>
+
+</aside>
+
+<main>
+
+<div class="notice">⚠️ Bản demo: số dư và phần thưởng là dữ liệu minh họa. Chưa có đăng nhập thật, xác minh nhiệm vụ hoặc thanh toán.</div>
+
+<section class="page active" id="overview">
+
+<div style="margin-top:22px"><h1>Tổng quan</h1><div class="muted">Chào mừng bạn đến với Kiếm Lúa Online!</div></div>
+
+<div class="cards">
+
+<div class="card"><div class="iconbox">💰</div><div class="label">Số dư khả dụng</div><div class="number blue">0 Lúa</div><div class="muted">Số dư demo</div></div>
+
+<div class="card"><div class="iconbox">📈</div><div class="label">Thu nhập 7 ngày</div><div class="number green">0 Lúa</div><div class="muted">Chưa có giao dịch</div></div>
+
+<div class="card"><div class="iconbox">🎯</div><div class="label">Nhiệm vụ hoàn thành</div><div class="number">0</div><div class="muted">Tổng nhiệm vụ demo</div></div>
+
+<div class="card"><div class="iconbox">🏦</div><div class="label">Rút tối thiểu</div><div class="number">50.000</div><div class="muted">Lúa · minh họa</div></div>
+
+</div>
+
+<div class="card">
+
+<h2>📊 Thu nhập 7 ngày gần đây</h2>
+
+<canvas id="chart" class="chart"></canvas>
+
+<div class="muted">Biểu đồ minh họa · chưa có dữ liệu thật</div>
+
+</div>
+
+<div class="card">
+
+<h2>Nhiệm vụ nổi bật</h2>
+
+<div class="task"><div class="task-icon">🔗</div><div class="task-info"><div class="task-title">Link Traffic Việt</div><div class="muted">Thời gian dự kiến ~90 giây</div></div><div class="reward">+350 Lúa</div></div>
+
+<button class="btn full" data-goto="tasks">Xem nhiệm vụ →</button>
+
+</div>
+
+</section>
+
+<section class="page" id="tasks">
+
+<div style="margin:22px 0"><h1>Nhiệm vụ Link</h1><div class="muted">Danh sách nhiệm vụ khả dụng</div></div>
+
+<div class="card">
+
+<div class="task"><div class="task-icon">🔗</div><div class="task-info"><div class="task-title">Link Traffic Việt</div><div class="muted">Truy cập liên kết theo hướng dẫn</div></div><div class="reward">+350 Lúa</div></div>
+
+<div class="meta">◷ Thời gian: ~90 giây<br>◎ Hoàn thành: 0/2 lượt<br>▣ Còn 2/2 lượt hôm nay</div>
+
+<button class="btn full" id="doTask">Làm nhiệm vụ</button>
+
+</div>
+
+</section>
+
+<section class="page" id="ref"><h1 style="margin:22px 0">Tuyển Ref</h1><div class="card">Liên kết giới thiệu sẽ có sau khi hệ thống tài khoản được triển khai.</div></section>
+
+<section class="page" id="benefits"><h1 style="margin:22px 0">Phúc lợi</h1><div class="card">Chưa có chương trình phúc lợi.</div></section>
+
+<section class="page" id="withdraw"><h1 style="margin:22px 0">Rút tiền</h1><div class="card"><h2>Số dư: 0 Lúa</h2><p class="muted">Mức rút tối thiểu minh họa: 50.000 Lúa.</p><p class="muted">Chức năng rút tiền thật chưa được triển khai.</p><button class="btn full" id="withdrawBtn">Yêu cầu rút tiền demo</button></div></section>
+
+<section class="page" id="history"><h1 style="margin:22px 0">Lịch sử</h1><div class="card">Chưa có lịch sử giao dịch.</div></section>
+
+<section class="page" id="profile"><h1 style="margin:22px 0">Hồ sơ</h1><div class="card">Khách demo<br><br>Email: Chưa thiết lập<br>Định danh thiết bị: Chưa triển khai</div></section>
+
+</main>
+
+<script>
+
+const $=s=>document.querySelector(s);
+
+const pages=['overview','tasks','ref','benefits','withdraw','history','profile'];
+
+function openMenu(){document.body.classList.add('menu-open')}
+
+function closeMenu(){document.body.classList.remove('menu-open')}
+
+$('#openMenu').addEventListener('click',openMenu);
+
+$('#closeMenu').addEventListener('click',closeMenu);
+
+$('#overlay').addEventListener('click',closeMenu);
+
+$('#taskToggle').addEventListener('click',()=>{
+
+const sub=$('#taskSub'),opened=sub.classList.toggle('open');
+
+$('#arrow').textContent=opened?'⌃':'⌄';
+
+});
+
+function go(id){
+
+if(!pages.includes(id))return;
+
+document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+
+document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+
+if(id==='tasks'){$('#taskSub').classList.add('open');$('#arrow').textContent='⌃';}
+
+closeMenu();window.scrollTo(0,0);
+
+}
+
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
+
+$('#logout').addEventListener('click',()=>alert('Bản demo chưa có chức năng đăng nhập hoặc đăng xuất thật.'));
+
+$('#doTask').addEventListener('click',()=>alert('Đây là nhiệm vụ minh họa. Chưa có liên kết đối tác, xác minh hoặc trả thưởng thật.'));
+
+$('#withdrawBtn').addEventListener('click',()=>alert('Bản demo chưa hỗ trợ rút tiền thật.'));
+
+function drawChart(){
+
+const c=$('#chart'),r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;
+
+if(!r.width)return;
+
+c.width=r.width*d;c.height=190*d;
+
+const x=c.getContext('2d');x.scale(d,d);
+
+const w=r.width,h=190,L=30,R=8,T=15,B=26;
+
+x.clearRect(0,0,w,h);x.font='11px Arial';x.textAlign='right';x.fillStyle='#8290a7';x.strokeStyle='#e7ebf2';
+
+for(let i=0;i<5;i++){const y=T+i*(h-T-B)/4;x.beginPath();x.moveTo(L,y);x.lineTo(w-R,y);x.stroke();x.fillText(String(4-i),L-8,y+4);}
+
+const days=['15','16','17','18','19','20','21'];
+
+days.forEach((v,i)=>{const px=L+i*(w-L-R)/6;x.textAlign='center';x.fillStyle='#8290a7';x.fillText(v,px,h-7);x.beginPath();x.arc(px,h-B-2,3,0,Math.PI*2);x.fillStyle='#427cf5';x.fill();});
+
+}
+
+drawChart();window.addEventListener('resize',drawChart);
+
+</script>
+
+</body>
+
+</html>
