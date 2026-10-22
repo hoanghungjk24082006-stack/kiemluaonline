@@ -47,20 +47,21 @@ main{max-width:760px;margin:auto;padding:15px}
 .inputGroup{margin-bottom:15px}
 .inputGroup label{display:block;margin-bottom:6px;font-size:14px;color:#cbd5e1}
 .inputGroup input{width:100%;padding:12px;border-radius:10px;border:1px solid #24304b;background:#111a30;color:white;font-size:16px}
+.linkBtn{background:none;border:0;color:#91bdff;text-decoration:none;font-size:14px;padding:10px;width:100%;text-align:center;}
 footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </style>
 </head>
 <body>
 
 <header>
-<button class="menuBtn" onclick="menu()">☰</button>
+<button class="menuBtn" id="openMenuBtn">☰</button>
 <div class="brand">🌾 KIẾM LÚA ONLINE</div>
 <div class="balance" id="topBalance">🌾 0 Lúa</div>
 </header>
 
-<div class="drawer" id="drawer" onclick="if(event.target===this)menu()">
+<div class="drawer" id="drawer">
 <nav class="sidebar">
-<div class="sideHead">🌾 KIẾM LÚA ONLINE <button onclick="menu()" style="background:none;border:0;color:white;font-size:25px">×</button></div>
+<div class="sideHead">🌾 KIẾM LÚA ONLINE <button id="closeMenuBtn" style="background:none;border:0;color:white;font-size:25px">×</button></div>
 <a class="sideLink active" href="#" data-page="overview" id="menuOverview">⌂ Tổng quan</a>
 <a class="sideLink" href="#" onclick="toggleSub(event)">◎ Nhiệm vụ ⌄</a>
 <div id="sub"><a class="subLink" href="#" data-page="links">— Link</a></div>
@@ -88,9 +89,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </div>
 <br>
 <button class="btn" id="mainAuthBtn" style="margin-bottom:12px;">Đăng nhập</button>
-<div style="text-align:center;font-size:14px;">
-<a href="#" id="switchAuthLink" style="color:#91bdff;text-decoration:none;">Chưa có tài khoản? Đăng ký ngay</a>
-</div>
+<button class="linkBtn" id="switchAuthLink">Chưa có tài khoản? Đăng ký ngay</button>
 </div>
 </section>
 
@@ -101,7 +100,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <div style="color:#b8c9e8">▣ Số dư khả dụng</div>
 <div class="big" id="mainBalance">0 Lúa</div>
 <p style="color:#b8c9e8;font-size:13px">Sẵn sàng rút thưởng khi đủ mốc</p>
-<button class="btn" onclick="show('withdraw')">Rút tiền ↗</button>
+<button class="btn" id="navWithdrawBtn">Rút tiền ↗</button>
 </div>
 <div class="card">
 <div class="muted">◎ Mốc rút thưởng tối thiểu</div>
@@ -118,7 +117,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <div class="heading">Nhiệm vụ gần đây</div>
 <div class="card">
 <div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Nhiệm vụ Link</div><div class="muted" style="margin-top:5px">Vượt link rút gọn để nhận điểm thưởng</div></div></div>
-<br><button class="btn" onclick="show('links')">Xem nhiệm vụ</button>
+<br><button class="btn" id="navTasksBtn">Xem nhiệm vụ</button>
 </div>
 </section>
 
@@ -132,7 +131,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <button class="btn" id="startTaskBtn">Làm nhiệm vụ</button>
 </div>
 
-<!-- HỘP XÁC MINH TOÁN HỌC (TỰ ĐỘNG HIỆN SAU KHI VƯỢT LINK) -->
+<!-- HỘP XÁC MINH TOÁN HỌC -->
 <div class="card" id="mathBox" style="display: none; margin-top: 15px; background: #111a30; color: white; border: 1px solid #233258; padding: 15px; border-radius: 15px;">
 <div style="font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #86e3b0;">🔒 Xác minh người thật (Chuyển hướng thành công)</div>
 <p class="muted" style="color: #aab8d0; margin: 5px 0 10px;">Vui lòng giải phép tính để hoàn thành nhiệm vụ:</p>
@@ -143,16 +142,15 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </section>
 
 <!-- CÁC TRANG CÒN LẠI -->
-<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Hệ thống tài khoản đã chạy, mã Ref liên kết tự động theo UID Firebase.</div></section>
+<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động theo UID Firebase.</div></section>
 <section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có chương trình phúc lợi hôm nay.</div></section>
-<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối với tài khoản Firebase của bạn.</div></section>
-<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử giao dịch được ghi nhận.</div></section>
-<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Vui lòng đăng nhập để xem thông tin cá nhân thật.</div></section>
+<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền yêu cầu quản trị duyệt thủ công.</div></section>
+<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử giao dịch.</div></section>
+<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Vui lòng đăng nhập để xem thông tin cá nhân.</div></section>
 </main>
 
 <footer>&copy; Kiếm Lúa Online</footer>
 
-<!-- TÍCH HỢP ĐỒNG BỘ MÁY CHỦ GOOGLE FIREBASE CHÍNH XÁC THEO MÃ CỦA BẠN -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-
+import { initializeApp } from "https://gstatic.com";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://gstatic.com";
