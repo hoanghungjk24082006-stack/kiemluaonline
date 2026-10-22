@@ -3,21 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05091b">
 <title>Kiếm Lúa Online</title>
 <style>
-body{background:#05091b;color:white;font-family:sans-serif;text-align:center;padding:50px 20px}
-.box{background:#111a30;padding:25px;border-radius:20px;border:1px solid #233258;max-width:400px;margin:auto}
-.btn{background:#315cf5;color:white;border:0;border-radius:12px;padding:15px;width:100%;font-weight:bold;font-size:16px;margin-top:15px;display:block;text-decoration:none}
+*{box-sizing:border-box}
+body{margin:0;background:#05091b;color:#e8eefc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:30px 15px}
+.card{background:linear-gradient(135deg,#101b35,#1a2944);border:1px solid #34445e;border-radius:20px;padding:20px;max-width:450px;margin:auto}
+.heading{text-align:center;font-size:22px;font-weight:800;margin-bottom:20px;color:white}
+.inputGroup{margin-bottom:15px}
+.inputGroup label{display:block;margin-bottom:6px;font-size:14px;color:#cbd5e1}
+.inputGroup input{width:100%;padding:12px;border-radius:10px;border:1px solid #24304b;background:#111a30;color:white;font-size:16px}
+.btn{background:#315cf5;color:white;border:0;border-radius:13px;padding:14px;width:100%;font-weight:750;font-size:16px;cursor:pointer}
+.linkBtn{background:none;border:0;color:#91bdff;font-size:14px;padding:10px;width:100%;text-align:center;cursor:pointer;margin-top:10px}
 </style>
 </head>
 <body>
 
-<div class="box">
-    <h2>🌾 KIẾM LÚA ONLINE</h2>
-    <p>Chào mừng bạn! Nhấn nút bên dưới để chuyển sang chế độ đăng ký.</p>
+<div class="card">
+    <div class="heading" id="authTitle">Đăng nhập hệ thống</div>
     
-    <button class="btn" id="testBtn" onclick="alert('Tuyệt vời! Nút bấm đã hoạt động mượt mà 100%!')">Thử bấm vào đây</button>
+    <div class="inputGroup">
+        <label>Tài khoản Email</label>
+        <input type="email" id="authEmail" placeholder="Nhập email của bạn...">
+    </div>
+    
+    <div class="inputGroup">
+        <label>Mật khẩu</label>
+        <input type="password" id="authPassword" placeholder="Nhập mật khẩu...">
+    </div>
+    
+    <button class="btn" id="mainAuthBtn">Đăng nhập</button>
+    <button class="linkBtn" id="switchAuthLink">Chưa có tài khoản? Đăng ký ngay</button>
 </div>
+
+<script>
+let isSignUpMode = false;
+
+// Lệnh xử lý bấm nút Đăng nhập / Đăng ký giả lập phản hồi ngay lập tức
+document.getElementById('mainAuthBtn').onclick = () => {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    if(!email || !password) return alert('Vui lòng điền đầy đủ email và mật khẩu!');
+    
+    if(isSignUpMode) {
+        alert('Giao diện chuẩn: Đang xử lý đăng ký tài khoản ' + email);
+    } else {
+        alert('Giao diện chuẩn: Đang xử lý đăng nhập hệ thống!');
+    }
+};
+
+// Lệnh xử lý bấm nút chuyển đổi Đăng ký / Đăng nhập ăn lệnh 100%
+document.getElementById('switchAuthLink').onclick = () => {
+    isSignUpMode = !isSignUpMode;
+    document.getElementById('authTitle').textContent = isSignUpMode ? 'Đăng ký tài khoản mới' : 'Đăng nhập hệ thống';
+    document.getElementById('mainAuthBtn').textContent = isSignUpMode ? 'Đăng ký' : 'Đăng nhập';
+    document.getElementById('switchAuthLink').textContent = isSignUpMode ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký ngay';
+};
+</script>
 
 </body>
 </html>
