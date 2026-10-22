@@ -54,22 +54,22 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <body>
 
 <header>
-<button class="menuBtn" id="openMenuBtn">☰</button>
+<button class="menuBtn" onclick="menu()">☰</button>
 <div class="brand">🌾 KIẾM LÚA ONLINE</div>
 <div class="balance" id="topBalance">🌾 0 Lúa</div>
 </header>
 
-<div class="drawer" id="drawer">
+<div class="drawer" id="drawer" onclick="if(event.target===this)menu()">
 <nav class="sidebar">
-<div class="sideHead">🌾 KIẾM LÚA ONLINE <button id="closeMenuBtn" style="background:none;border:0;color:white;font-size:25px">×</button></div>
-<button class="sideLink active" data-page="overview">⌂ Tổng quan</button>
-<button class="sideLink" id="taskMenuBtn">◎ Nhiệm vụ ⌄</button>
-<div id="sub" style="display:none;"><button class="subLink" data-page="links">— Link</button></div>
-<button class="sideLink" data-page="ref">♧ Tuyển Ref</button>
-<button class="sideLink" data-page="benefits">♙ Phúc lợi</button>
-<button class="sideLink" data-page="withdraw">▣ Rút tiền</button>
-<button class="sideLink" data-page="history">◷ Lịch sử</button>
-<button class="sideLink" data-page="profile">◎ Hồ sơ</button>
+<div class="sideHead">🌾 KIẾM LÚA ONLINE <button onclick="menu()" style="background:none;border:0;color:white;font-size:25px">×</button></div>
+<button class="sideLink active" onclick="show('overview')">⌂ Tổng quan</button>
+<button class="sideLink" onclick="toggleSub(event)">◎ Nhiệm vụ ⌄</button>
+<div id="sub" style="display:none;"><button class="subLink" onclick="show('links')">— Link</button></div>
+<button class="sideLink" onclick="show('ref')">♧ Tuyển Ref</button>
+<button class="sideLink" onclick="show('benefits')">♙ Phúc lợi</button>
+<button class="sideLink" onclick="show('withdraw')">▣ Rút tiền</button>
+<button class="sideLink" onclick="show('history')">◷ Lịch sử</button>
+<button class="sideLink" onclick="show('profile')">◎ Hồ sơ</button>
 <div class="logout"><button class="sideLink" id="logoutBtn">⇥ Đăng xuất</button></div>
 </nav>
 </div>
@@ -95,12 +95,12 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 
 <!-- MÀN HÌNH TỔNG QUAN CHÍNH -->
 <section id="overview" class="page">
-<div class="notice">● Máy chủ cơ sở dữ liệu đã kết nối thành công!</div>
+<div class="notice">● Hệ thống bảo mật cục bộ đã sẵn sàng!</div>
 <div class="card darkCard">
 <div style="color:#b8c9e8">▣ Số dư khả dụng</div>
 <div class="big" id="mainBalance">0 Lúa</div>
 <p style="color:#b8c9e8;font-size:13px">Sẵn sàng rút thưởng khi đủ mốc</p>
-<button class="btn" style="width:100%;" id="overviewWithdrawBtn">Rút tiền ↗</button>
+<button class="btn" style="width:100%;" onclick="show('withdraw')">Rút tiền ↗</button>
 </div>
 <div class="card">
 <div class="muted">◎ Mốc rút thưởng tối thiểu</div>
@@ -117,14 +117,14 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <div class="heading">Nhiệm vụ gần đây</div>
 <div class="card">
 <div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Nhiệm vụ Link</div><div class="muted" style="margin-top:5px">Vượt link rút gọn để nhận điểm thưởng</div></div></div>
-<br><button class="btn" style="width:100%;" id="overviewTasksBtn">Xem nhiệm vụ</button>
+<br><button class="btn" style="width:100%;" onclick="show('links')">Xem nhiệm vụ</button>
 </div>
 </section>
 
 <!-- MÀN HÌNH DANH SÁCH NHIỆM VỤ LINK -->
 <section id="links" class="page">
 <div class="heading">Nhiệm vụ Link</div>
-<div class="notice">Hệ thống đối chiếu thời gian thực chống tool đang chạy.</div>
+<div class="notice">Hệ thống đối chiếu chống tool đang chạy.</div>
 <div class="card">
 <div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Link Traffic Việt</div><div class="taskMeta"><span class="pill">◷ ~90s</span><span class="pill reward">+350 Lúa</span></div></div><span class="count" id="taskRatio">0/2</span></div>
 <div class="bar"></div><div class="taskFoot" id="taskLeft">Còn 2/2 lượt hôm nay</div>
@@ -142,15 +142,20 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </section>
 
 <!-- CÁC TRANG PHỤ -->
-<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động đồng bộ theo tài khoản Firebase.</div></section>
-<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có phúc lợi ngày hôm nay.</div></section>
-<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối máy chủ dữ liệu.</div></section>
-<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử giao dịch.</div></section>
-<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Vui lòng đăng nhập để xem hồ sơ.</div></section>
+<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động theo tài khoản.</div></section>
+<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có phúc lợi.</div></section>
+<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối.</div></section>
+<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử.</div></section>
+<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Thông tin tài khoản cục bộ.</div></section>
 </main>
 
 <footer>&copy; Kiếm Lúa Online</footer>
 
-<!-- TÍCH HỢP ĐỒNG BỘ MÁY CHỦ GOOGLE FIREBASE V10 CHUẨN XÁC THEO HÌNH ẢNH CỦA BẠN -->
-<script type="module">
-import { initializeApp } from "https://gstatic.com";
+<script>
+// Khởi chạy hệ thống cục bộ độc lập giúp nút bấm phản hồi ngay lập tức
+let currentUser = null;
+let isSignUpMode = false;
+let startTime = 0;
+let localBalance = 0;
+let localCompleted = 0;
+
