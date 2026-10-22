@@ -1,19 +1,156 @@
-<script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDw5M-i42wXwrJjnmQ1t2bO2kicBLis12o",
-    authDomain: "://firebaseapp.com",
-    databaseURL: "https://firebasedatabase.app",
-    projectId: "kiemluaonline-608fa",
-    storageBucket: "kiemluaonline-608fa.firebasestorage.app",
-    messagingSenderId: "1032663066202",
-    appId: "1:1032663066202:web:76f43c6fa7491b16a95a63"
-  };
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const auth = firebase.auth();
-  const database = firebase.database();
-</script>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05091b">
+<title>Kiếm Lúa Online</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05091b;color:#e8eefc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{height:70px;background:#05091b;border-bottom:1px solid #202942;display:flex;align-items:center;justify-content:space-between;padding:12px;position:sticky;top:0;z-index:5}
+button{font:inherit;cursor:pointer}
+.menuBtn{background:#111a30;border:1px solid #24304b;color:white;border-radius:12px;padding:10px 13px;font-size:20px}
+.brand{color:white;font-size:13px;font-weight:850}
+.balance{color:#91bdff;background:#0a1530;border:1px solid #203c75;padding:10px;border-radius:12px;font-weight:750;font-size:12px}
+main{max-width:760px;margin:auto;padding:15px}
+.page{display:none}.page.active{display:block}
+.card{background:#fff;color:#172033;border:1px solid #e2e8f0;border-radius:20px;padding:18px;margin-bottom:15px}
+.darkCard{background:linear-gradient(135deg,#101b35,#1a2944);color:white;border-color:#34445e}
+.muted{color:#718096;font-size:13px}
+.big{font-size:27px;font-weight:850;margin:12px 0}
+.btn{background:#315cf5;color:white;border:0;border-radius:13px;padding:14px;width:100%;font-weight:750;font-size:16px;text-align:center;display:block;text-decoration:none}
+.progress{height:9px;background:#edf1f7;border-radius:10px;overflow:hidden;margin:15px 0}
+.progress span{display:block;width:0;height:100%;background:#315cf5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.stat{background:#fff;color:#172033;border-radius:16px;padding:15px}
+.stat strong{display:block;font-size:24px;margin:9px 0}
+.heading{color:#fff;font-size:20px;font-weight:800;margin:23px 2px 13px}
+.notice{background:#102d25;color:#86e3b0;padding:12px;border-radius:11px;margin-bottom:15px;font-size:13px}
+.taskIcon{width:54px;height:54px;flex-shrink:0;display:grid;place-items:center;background:#eee9ff;color:#7838ff;border-radius:17px;font-size:25px}
+.taskTop{display:flex;align-items:center;gap:12px}
+.taskName{font-size:18px;font-weight:850}
+.taskMeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.pill{background:#f1f4f9;color:#697b96;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:700}
+.reward{background:#effbf5;color:#329c6b}
+.count{margin-left:auto;background:#fcf0f7;color:#e0449c;border-radius:20px;padding:8px 10px;font-weight:800;font-size:12px}
+.taskFoot{color:#697b96;margin:23px 0 14px;font-size:13px}
+.bar{height:9px;background:#f0f3f8;border-radius:9px;margin-top:23px}
+.drawer{display:none;position:fixed;inset:0;background:#0009;z-index:20}
+.drawer.open{display:block}
+.sidebar{background:#05091b;color:#cbd5e1;width:min(82%,330px);height:100%;padding:16px;display:flex;flex-direction:column;overflow:auto}
+.sideHead{color:white;display:flex;justify-content:space-between;align-items:center;padding:12px 0 20px;border-bottom:1px solid #202942;font-weight:850}
+.sideLink{display:block;padding:16px 12px;color:#cbd5e1;text-decoration:none;border-radius:14px;margin-top:5px;font-weight:700;background:none;border:0;width:100%;text-align:left}
+.sideLink.active{background:#3979f6;color:white}
+.subLink{display:block;margin:0 0 5px 38px;padding:12px;color:#aab8d0;text-decoration:none;background:none;border:0;text-align:left}
+.logout{margin-top:auto;border-top:1px solid #202942}
+.inputGroup{margin-bottom:15px}
+.inputGroup label{display:block;margin-bottom:6px;font-size:14px;color:#cbd5e1}
+.inputGroup input{width:100%;padding:12px;border-radius:10px;border:1px solid #24304b;background:#111a30;color:white;font-size:16px}
+.linkBtn{background:none;border:0;color:#91bdff;text-decoration:none;font-size:14px;padding:10px;width:100%;text-align:center;}
+footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
+</style>
+</head>
+<body>
+
+<header>
+<button class="menuBtn" onclick="menu()">☰</button>
+<div class="brand">🌾 KIẾM LÚA ONLINE</div>
+<div class="balance" id="topBalance">🌾 0 Lúa</div>
+</header>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)menu()">
+<nav class="sidebar">
+<div class="sideHead">🌾 KIẾM LÚA ONLINE <button onclick="menu()" style="background:none;border:0;color:white;font-size:25px">×</button></div>
+<button class="sideLink active" onclick="show('overview')">⌂ Tổng quan</button>
+<button class="sideLink" onclick="toggleSub(event)">◎ Nhiệm vụ ⌄</button>
+<div id="sub" style="display:none;"><button class="subLink" onclick="show('links')">— Link</button></div>
+<button class="sideLink" onclick="show('ref')">♧ Tuyển Ref</button>
+<button class="sideLink" onclick="show('benefits')">♙ Phúc lợi</button>
+<button class="sideLink" onclick="show('withdraw')">▣ Rút tiền</button>
+<button class="sideLink" onclick="show('history')">◷ Lịch sử</button>
+<button class="sideLink" onclick="show('profile')">◎ Hồ sơ</button>
+<div class="logout"><button class="sideLink" id="logoutBtn">⇥ Đăng xuất</button></div>
+</nav>
+</div>
+
+<main>
+<!-- MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ -->
+<section id="authPage" class="page active">
+<div class="heading" id="authTitle" style="text-align:center;">Đăng nhập hệ thống</div>
+<div class="card darkCard" style="max-width:450px;margin:auto;">
+<div class="inputGroup">
+<label>Tài khoản Email</label>
+<input type="email" id="authEmail" placeholder="Nhập email của bạn...">
+</div>
+<div class="inputGroup">
+<label>Mật khẩu</label>
+<input type="password" id="authPassword" placeholder="Nhập mật khẩu...">
+</div>
+<br>
+<button class="btn" id="mainAuthBtn" style="margin-bottom:12px;width:100%;">Đăng nhập</button>
+<button class="linkBtn" id="switchAuthLink">Chưa có tài khoản? Đăng ký ngay</button>
+</div>
+</section>
+
+<!-- MÀN HÌNH TỔNG QUAN CHÍNH -->
+<section id="overview" class="page">
+<div class="notice">● Hệ thống bảo mật máy chủ đã sẵn sàng!</div>
+<div class="card darkCard">
+<div style="color:#b8c9e8">▣ Số dư khả dụng</div>
+<div class="big" id="mainBalance">0 Lúa</div>
+<p style="color:#b8c9e8;font-size:13px">Sẵn sàng rút thưởng khi đủ mốc</p>
+<button class="btn" style="width:100%;" onclick="show('withdraw')">Rút tiền ↗</button>
+</div>
+<div class="card">
+<div class="muted">◎ Mốc rút thưởng tối thiểu</div>
+<div class="big">5.000 Lúa</div>
+<div class="progress"><span id="progressPercent" style="width:0%;"></span></div>
+<div class="muted" id="progressText">0 / 5.000 Lúa (0%)</div>
+</div>
+<div class="grid">
+<div class="stat"><span class="muted">Tổng nhiệm vụ</span><strong>2</strong><span class="muted">Lượt thực hiện</span></div>
+<div class="stat"><span class="muted">Đã hoàn thành</span><strong style="color:#159765" id="completeCount">0</strong><span class="muted">Nhiệm vụ</span></div>
+<div class="stat"><span class="muted">Đang thực hiện</span><strong style="color:#315cf5" id="runningCount">0</strong><span class="muted">Nhiệm vụ</span></div>
+<div class="stat"><span class="muted">Thu nhập</span><strong id="summaryIncome">0</strong><span class="muted">Lúa thật</span></div>
+</div>
+<div class="heading">Nhiệm vụ gần đây</div>
+<div class="card">
+<div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Nhiệm vụ Link</div><div class="muted" style="margin-top:5px">Vượt link rút gọn để nhận điểm thưởng</div></div></div>
+<br><button class="btn" style="width:100%;" onclick="show('links')">Xem nhiệm vụ</button>
+</div>
+</section>
+
+<!-- MÀN HÌNH DANH SÁCH NHIỆM VỤ LINK -->
+<section id="links" class="page">
+<div class="heading">Nhiệm vụ Link</div>
+<div class="notice">Hệ thống đối chiếu chống tool đang chạy.</div>
+<div class="card">
+<div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Link Traffic Việt</div><div class="taskMeta"><span class="pill">◷ ~90s</span><span class="pill reward">+350 Lúa</span></div></div><span class="count" id="taskRatio">0/2</span></div>
+<div class="bar"></div><div class="taskFoot" id="taskLeft">Còn 2/2 lượt hôm nay</div>
+<button class="btn" style="width:100%;" id="startTaskBtn">Làm nhiệm vụ</button>
+</div>
+
+<!-- HỘP XÁC MINH TOÁN HỌC -->
+<div class="card" id="mathBox" style="display: none; margin-top: 15px; background: #111a30; color: white; border: 1px solid #233258; padding: 15px; border-radius: 15px;">
+<div style="font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #86e3b0;">🔒 Xác minh người thật (Chuyển hướng thành công)</div>
+<p class="muted" style="color: #aab8d0; margin: 5px 0 10px;">Vui lòng giải phép tính để hoàn thành nhiệm vụ:</p>
+<div style="font-size: 20px; font-weight: 800; margin: 10px 0; text-align: center; background: #05091b; padding: 12px; border-radius: 10px; border: 1px solid #202942;">5 + 7 = ?</div>
+<input type="number" id="mathAnswer" placeholder="Nhập kết quả..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #233258; background: #05091b; color: white; font-size: 16px; margin-bottom: 12px;">
+<button class="btn" style="width:100%;" id="verifyMathBtn">Xác nhận hoàn thành</button>
+</div>
+</section>
+
+<!-- CÁC TRANG PHỤ -->
+<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động theo tài khoản.</div></section>
+<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có phúc lợi.</div></section>
+<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối.</div></section>
+<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử.</div></section>
+<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Vui lòng đăng nhập để xem hồ sơ.</div></section>
+</main>
+
+<footer>&copy; Kiếm Lúa Online</footer>
+
+<!-- Nhúng thư viện Firebase CDN v10 chuẩn cấu trúc không bao giờ bị kẹt -->
+<script type="module">
+import { initializeApp } from "https://gstatic.com";
