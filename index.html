@@ -40,9 +40,9 @@ main{max-width:760px;margin:auto;padding:15px}
 .drawer.open{display:block}
 .sidebar{background:#05091b;color:#cbd5e1;width:min(82%,330px);height:100%;padding:16px;display:flex;flex-direction:column;overflow:auto}
 .sideHead{color:white;display:flex;justify-content:space-between;align-items:center;padding:12px 0 20px;border-bottom:1px solid #202942;font-weight:850}
-.sideLink{display:block;padding:16px 12px;color:#cbd5e1;text-decoration:none;border-radius:14px;margin-top:5px;font-weight:700}
+.sideLink{display:block;padding:16px 12px;color:#cbd5e1;text-decoration:none;border-radius:14px;margin-top:5px;font-weight:700;background:none;border:0;width:100%;text-align:left}
 .sideLink.active{background:#3979f6;color:white}
-.subLink{display:block;margin:0 0 5px 38px;padding:12px;color:#aab8d0;text-decoration:none}
+.subLink{display:block;margin:0 0 5px 38px;padding:12px;color:#aab8d0;text-decoration:none;background:none;border:0;text-align:left}
 .logout{margin-top:auto;border-top:1px solid #202942}
 .inputGroup{margin-bottom:15px}
 .inputGroup label{display:block;margin-bottom:6px;font-size:14px;color:#cbd5e1}
@@ -50,31 +50,27 @@ main{max-width:760px;margin:auto;padding:15px}
 .linkBtn{background:none;border:0;color:#91bdff;text-decoration:none;font-size:14px;padding:10px;width:100%;text-align:center;}
 footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </style>
-<!-- Nhúng thư viện Firebase dạng nén để khởi động siêu tốc ngay lập tức -->
-<script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
 </head>
 <body>
 
 <header>
-<button class="menuBtn" onclick="menu()">☰</button>
+<button class="menuBtn" id="openMenuBtn">☰</button>
 <div class="brand">🌾 KIẾM LÚA ONLINE</div>
 <div class="balance" id="topBalance">🌾 0 Lúa</div>
 </header>
 
-<div class="drawer" id="drawer" onclick="if(event.target===this)menu()">
+<div class="drawer" id="drawer">
 <nav class="sidebar">
-<div class="sideHead">🌾 KIẾM LÚA ONLINE <button onclick="menu()" style="background:none;border:0;color:white;font-size:25px">×</button></div>
-<button class="sideLink active" onclick="show('overview')">⌂ Tổng quan</button>
-<button class="sideLink" onclick="toggleSub(event)">◎ Nhiệm vụ ⌄</button>
-<div id="sub" style="display:none;"><button class="subLink" style="background:none;border:0;width:100%;text-align:left;" onclick="show('links')">— Link</button></div>
-<button class="sideLink" onclick="show('ref')">♧ Tuyển Ref</button>
-<button class="sideLink" onclick="show('benefits')">♙ Phúc lợi</button>
-<button class="sideLink" onclick="show('withdraw')">▣ Rút tiền</button>
-<button class="sideLink" onclick="show('history')">◷ Lịch sử</button>
-<button class="sideLink" onclick="show('profile')">◎ Hồ sơ</button>
-<div class="logout"><button class="sideLink" style="background:none;border:0;width:100%;text-align:left;" id="logoutBtn">⇥ Đăng xuất</button></div>
+<div class="sideHead">🌾 KIẾM LÚA ONLINE <button id="closeMenuBtn" style="background:none;border:0;color:white;font-size:25px">×</button></div>
+<button class="sideLink active" data-page="overview">⌂ Tổng quan</button>
+<button class="sideLink" id="taskMenuBtn">◎ Nhiệm vụ ⌄</button>
+<div id="sub" style="display:none;"><button class="subLink" data-page="links">— Link</button></div>
+<button class="sideLink" data-page="ref">♧ Tuyển Ref</button>
+<button class="sideLink" data-page="benefits">♙ Phúc lợi</button>
+<button class="sideLink" data-page="withdraw">▣ Rút tiền</button>
+<button class="sideLink" data-page="history">◷ Lịch sử</button>
+<button class="sideLink" data-page="profile">◎ Hồ sơ</button>
+<div class="logout"><button class="sideLink" id="logoutBtn">⇥ Đăng xuất</button></div>
 </nav>
 </div>
 
@@ -104,7 +100,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <div style="color:#b8c9e8">▣ Số dư khả dụng</div>
 <div class="big" id="mainBalance">0 Lúa</div>
 <p style="color:#b8c9e8;font-size:13px">Sẵn sàng rút thưởng khi đủ mốc</p>
-<button class="btn" style="width:100%;" onclick="show('withdraw')">Rút tiền ↗</button>
+<button class="btn" style="width:100%;" id="overviewWithdrawBtn">Rút tiền ↗</button>
 </div>
 <div class="card">
 <div class="muted">◎ Mốc rút thưởng tối thiểu</div>
@@ -121,7 +117,7 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 <div class="heading">Nhiệm vụ gần đây</div>
 <div class="card">
 <div class="taskTop"><div class="taskIcon">↗</div><div style="flex:1"><div class="taskName">Nhiệm vụ Link</div><div class="muted" style="margin-top:5px">Vượt link rút gọn để nhận điểm thưởng</div></div></div>
-<br><button class="btn" style="width:100%;" onclick="show('links')">Xem nhiệm vụ</button>
+<br><button class="btn" style="width:100%;" id="overviewTasksBtn">Xem nhiệm vụ</button>
 </div>
 </section>
 
@@ -145,8 +141,16 @@ footer{text-align:center;color:#78869e;font-size:12px;padding:25px}
 </div>
 </section>
 
-<!-- CÁ C TRANG PHỤ -->
-<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động đồng bộ theo tài khoản.</div></section>
-<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có phúc lợi.</div></section>
-<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối.</div></section>
-<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử.</div></section>
+<!-- CÁC TRANG PHỤ -->
+<section id="ref" class="page"><div class="heading">Tuyển Ref</div><div class="card">Mã Ref tự động đồng bộ theo tài khoản Firebase.</div></section>
+<section id="benefits" class="page"><div class="heading">Phúc lợi</div><div class="card">Chưa có phúc lợi ngày hôm nay.</div></section>
+<section id="withdraw" class="page"><div class="heading">Rút tiền</div><div class="card">Cổng rút tiền đang kết nối máy chủ dữ liệu.</div></section>
+<section id="history" class="page"><div class="heading">Lịch sử</div><div class="card">Chưa có lịch sử giao dịch.</div></section>
+<section id="profile" class="page"><div class="heading">Hồ sơ</div><div class="card" id="profileCard">Vui lòng đăng nhập để xem hồ sơ.</div></section>
+</main>
+
+<footer>&copy; Kiếm Lúa Online</footer>
+
+<!-- TÍCH HỢP ĐỒNG BỘ MÁY CHỦ GOOGLE FIREBASE V10 CHUẨN XÁC THEO HÌNH ẢNH CỦA BẠN -->
+<script type="module">
+import { initializeApp } from "https://gstatic.com";
